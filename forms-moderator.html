@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заявка на модератора</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+        margin: 0;
+        padding: 0;
+        color: #fff;
+    }
+
+    form {
+        width: 500px;
+        margin: 50px auto;
+        background: #2f2f46;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        padding: 8px;
+        vertical-align: top;
+    }
+
+    label {
+        font-size: 14px;
+        color: #cfcfe8;
+    }
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        background: #1e1e2f;
+        color: #fff;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        background: #25253a;
+        box-shadow: 0 0 0 2px #5865f2;
+    }
+
+    ::placeholder {
+        color: #888;
+    }
+
+    input[type="submit"] {
+        background: #5865f2;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    input[type="submit"]:hover {
+        background: #4752c4;
+    }
+
+    input[type="reset"] {
+        background: #444;
+        cursor: pointer;
+    }
+
+    input[type="reset"]:hover {
+        background: #666;
+    }
+
+    tr:last-child td {
+        padding-top: 15px;
+    }
+
+    @media (max-width: 600px) {
+        form {
+            width: 90%;
+        }
+
+        table,
+        tr,
+        td {
+            display: block;
+            width: 100%;
+        }
+
+        td {
+            padding: 5px 0;
+        }
+    }
+    h1{
+        text-align: center;
+    }
+</style>
+
+<body>
+    <h1>Заявки на посаду модератора Вишиванка UA</h1>
+    <form onsubmit="sendWebhook(event)">
+        <table>
+            <tr>
+                <td><label for="name">1. Ваше справжнє ім'я:</label></td>
+                <td><input type="text" name="name" id="name" placeholder="Ваше ім'я" minlength="2" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="nickname">2. Ігровий NikName:</label></td>
+                <td><input type="text" name="nickname" id="nickname" placeholder="Ваш нік" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="age">3. Вік:</label></td>
+                <td><input type="number" name="age" id="age" min="10" max="100" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="timezone">4. Часовий пояс:</label></td>
+                <td><input type="text" name="timezone" id="timezone" placeholder="Наприклад: GMT+2" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="country">5. Країна та місто проживання:</label></td>
+                <td><input type="text" name="country" id="country" placeholder="Країна, місто" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="experience">6. Досвід адміністратором/модератором:</label></td>
+                <td>
+                    <textarea name="experience" id="experience" rows="3"
+                        placeholder="Якщо є – вкажіть де саме"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="online">7. Орієнтовний щоденний онлайн:</label></td>
+                <td><input type="text" name="online" id="online" placeholder="Наприклад: 3-5 годин" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="telegram">8. Ваш Telegram:</label></td>
+                <td><input type="text" name="telegram" id="telegram" placeholder="@username" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="discord">9. Ваш Discord:</label></td>
+                <td><input type="text" name="discord" id="discord" placeholder="username#0000" required></td>
+            </tr>
+
+            <tr>
+                <td><label for="motivation">10. Мотивація:</label></td>
+                <td>
+                    <textarea name="motivation" id="motivation" rows="4" placeholder="Чому хочете стати модератором?"
+                        required></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="agreement">11. Погодження з правилами:</label></td>
+                <td>
+                    <select name="agreement" id="agreement" required>
+                        <option value="">Оберіть</option>
+                        <option value="yes">Так</option>
+                        <option value="no">Ні</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td><input type="reset" value="Очистити"></td>
+                <td><input type="submit" value="Надіслати"></td>
+            </tr>
+        </table>
+    </form>
+
+    <script src="form.js"></script>
+</body>
+
+</html>

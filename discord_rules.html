@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Правила Сервера</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0a0b0f;
+            --surface: #0e1017;
+            --card: #12151f;
+            --border: #1e2333;
+            --accent: #5865f2;
+            --accent2: #eb459e;
+            --accent3: #57f287;
+            --text: #e3e5e8;
+            --muted: #72767d;
+            --glow: rgba(88, 101, 242, 0.4);
+            --glow2: rgba(235, 69, 158, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background grid */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(88, 101, 242, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 101, 242, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 0;
+            animation: drift 15s ease-in-out infinite alternate;
+        }
+
+        .orb1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(88, 101, 242, 0.12);
+            top: -100px;
+            left: -100px;
+            animation-duration: 18s;
+        }
+
+        .orb2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(235, 69, 158, 0.1);
+            bottom: 10%;
+            right: -80px;
+            animation-duration: 13s;
+        }
+
+        .orb3 {
+            width: 250px;
+            height: 250px;
+            background: rgba(87, 242, 135, 0.06);
+            top: 50%;
+            left: 40%;
+            animation-duration: 20s;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(40px, 30px) scale(1.1);
+            }
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 60px 20px 100px;
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+            animation: fadeDown 0.8s ease both;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(88, 101, 242, 0.15);
+            border: 1px solid rgba(88, 101, 242, 0.35);
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent3);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent3);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        /* Decorative line */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 50px 0 40px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+        }
+
+        .divider-icon {
+            color: var(--accent);
+            font-size: 20px;
+            filter: drop-shadow(0 0 6px var(--accent));
+        }
+
+        /* RULE CARDS */
+        .rules-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .rule-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px 26px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+            animation: fadeUp 0.5s ease both;
+        }
+
+        .rule-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .rule-card:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .rule-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .rule-card:nth-child(4) {
+            animation-delay: 0.25s;
+        }
+
+        .rule-card:nth-child(5) {
+            animation-delay: 0.3s;
+        }
+
+        .rule-card:nth-child(6) {
+            animation-delay: 0.35s;
+        }
+
+        .rule-card:nth-child(7) {
+            animation-delay: 0.4s;
+        }
+
+        .rule-card:nth-child(8) {
+            animation-delay: 0.45s;
+        }
+
+        .rule-card:nth-child(9) {
+            animation-delay: 0.5s;
+        }
+
+        .rule-card:nth-child(10) {
+            animation-delay: 0.55s;
+        }
+
+        .rule-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent);
+            border-radius: 3px 0 0 3px;
+            transition: opacity 0.25s;
+            opacity: 0.5;
+        }
+
+        .rule-card:hover {
+            border-color: rgba(88, 101, 242, 0.5);
+            transform: translateX(4px);
+            box-shadow: -4px 0 30px var(--glow), 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .rule-card:hover::before {
+            opacity: 1;
+        }
+
+        .rule-card.warn::before {
+            background: #fee75c;
+        }
+
+        .rule-card.warn:hover {
+            border-color: rgba(254, 231, 92, 0.4);
+            box-shadow: -4px 0 30px rgba(254, 231, 92, 0.2), 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .rule-card.danger::before {
+            background: #ed4245;
+        }
+
+        .rule-card.danger:hover {
+            border-color: rgba(237, 66, 69, 0.4);
+            box-shadow: -4px 0 30px rgba(237, 66, 69, 0.2), 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .rule-card.green::before {
+            background: var(--accent3);
+        }
+
+        .rule-card.green:hover {
+            border-color: rgba(87, 242, 135, 0.4);
+            box-shadow: -4px 0 30px rgba(87, 242, 135, 0.15), 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Shimmer on hover */
+        .rule-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.02) 50%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .rule-card:hover::after {
+            opacity: 1;
+        }
+
+        .rule-num {
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(88, 101, 242, 0.12);
+            border: 1px solid rgba(88, 101, 242, 0.25);
+            border-radius: 8px;
+            min-width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .rule-card.warn .rule-num {
+            color: #fee75c;
+            background: rgba(254, 231, 92, 0.1);
+            border-color: rgba(254, 231, 92, 0.2);
+        }
+
+        .rule-card.danger .rule-num {
+            color: #ed4245;
+            background: rgba(237, 66, 69, 0.1);
+            border-color: rgba(237, 66, 69, 0.2);
+        }
+
+        .rule-card.green .rule-num {
+            color: var(--accent3);
+            background: rgba(87, 242, 135, 0.08);
+            border-color: rgba(87, 242, 135, 0.2);
+        }
+
+        .rule-body {
+            flex: 1;
+        }
+
+        .rule-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .rule-desc {
+            font-size: 14.5px;
+            color: #b5bac1;
+            line-height: 1.55;
+            font-weight: 300;
+        }
+
+        .rule-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        .tag-warn {
+            background: rgba(254, 231, 92, 0.1);
+            color: #fee75c;
+            border: 1px solid rgba(254, 231, 92, 0.2);
+        }
+
+        .tag-ban {
+            background: rgba(237, 66, 69, 0.1);
+            color: #ed4245;
+            border: 1px solid rgba(237, 66, 69, 0.2);
+        }
+
+        .tag-ok {
+            background: rgba(87, 242, 135, 0.08);
+            color: var(--accent3);
+            border: 1px solid rgba(87, 242, 135, 0.2);
+        }
+
+        .tag-info {
+            background: rgba(88, 101, 242, 0.1);
+            color: #7289da;
+            border: 1px solid rgba(88, 101, 242, 0.2);
+        }
+
+        /* Section label */
+        .section-label {
+            font-family: 'Orbitron', monospace;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin: 40px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 70px;
+            text-align: center;
+            padding: 32px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            animation: fadeUp 0.5s 0.7s ease both;
+        }
+
+        footer p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        footer strong {
+            color: var(--accent);
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+        }
+
+        /* Animations */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+        a{
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(88, 101, 242, 0.15);
+            border: 1px solid rgba(88, 101, 242, 0.35);
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 24px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="wrapper">
+
+        <header>
+            <div class="badge">⚡ Офіційні правила</div>
+            <h1>Правила Сервера</h1>
+            <p class="subtitle">Прочитай уважно. Незнання правил не звільняє від відповідальності.</p>
+        </header>
+        <a href="index.html">Головна сторінка</a>
+        <a href="https://discord.gg/U6eMqb74">Перейти на сервер</a>
+
+        <!-- ПОВЕДІНКА -->
+        <!-- ПОВЕДІНКА ТА СПІЛКУВАННЯ -->
+        <div class="section-label">☰ Поведінка та спілкування</div>
+        <div class="rules-list">
+
+            <div class="rule-card green">
+                <div class="rule-num">01</div>
+                <div class="rule-body">
+                    <div class="rule-title">Повага до всіх учасників</div>
+                    <div class="rule-desc">
+                        Заборонено будь-які форми образ, принижень, токсичної поведінки, пасивної агресії, саркастичних
+                        нападок, “жартів” які принижують інших, а також натяків на дискримінацію.
+                        Заборонено: расизм, сексизм, нацизм, гомофобія, булінг, тролінг, провокації конфліктів.
+                        Заборонено ображати адміністрацію, навіть у “жартівливій формі”.
+                    </div>
+                    <span class="rule-tag tag-warn">⚠ Мут: 6–24 години / Бан при повторі</span>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-num">02</div>
+                <div class="rule-body">
+                    <div class="rule-title">Чітке використання каналів</div>
+                    <div class="rule-desc">
+                        Кожен канал має свою тему і призначення. Заборонено:
+                        - оффтоп у тематичних каналах
+                        - перенесення розмов між каналами без потреби
+                        - створення беззмістовних повідомлень
+                        - “заповнення” чату сміттєвими повідомленнями
+                    </div>
+                    <span class="rule-tag tag-info">ℹ Мут: 1–12 годин</span>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-num">03</div>
+                <div class="rule-body">
+                    <div class="rule-title">Флуд, спам та навантаження чату</div>
+                    <div class="rule-desc">
+                        Заборонено:
+                        - повторення однакових повідомлень (копіпаст)
+                        - більше 3 повідомлень підряд без відповіді інших
+                        - спам емодзі, символів, GIF або картинок
+                        - масові пінги (два і більше людей без причини)
+                        - капслок у великих обсягах
+                        - “залив” чату сміттям
+                    </div>
+                    <span class="rule-tag tag-warn">⚠ Мут: 6–24 години</span>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-num">04</div>
+                <div class="rule-body">
+                    <div class="rule-title">Провокації та конфлікти</div>
+                    <div class="rule-desc">
+                        Заборонено свідомо:
+                        - розпалювати конфлікти між користувачами
+                        - провокувати сварки (“bait” повідомлення)
+                        - підбурювати до порушень правил
+                        - обговорювати токсичні теми з метою створення срачу
+                    </div>
+                    <span class="rule-tag tag-warn">⚠ Мут: 12–48 годин</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- КОНТЕНТ -->
+        <div class="section-label">☰ Контент та медіа</div>
+        <div class="rules-list">
+
+            <div class="rule-card danger">
+                <div class="rule-num">05</div>
+                <div class="rule-body">
+                    <div class="rule-title">Заборонений контент (повний список)</div>
+                    <div class="rule-desc">
+                        Заборонено публікувати або надсилати:
+                        - 18+ контент будь-якого типу
+                        - насильство, жорстокість, шок-контент
+                        - расистські або екстремістські матеріали
+                        - незаконні матеріали або інструкції
+                        - наркотики, шахрайство, злами, хакінг
+                        - контент, що порушує правила Discord ToS
+                    </div>
+                    <span class="rule-tag tag-ban">🔨 Бан: 7 днів → Перм-бан</span>
+                </div>
+            </div>
+
+            <div class="rule-card warn">
+                <div class="rule-num">06</div>
+                <div class="rule-body">
+                    <div class="rule-title">Реклама, самопіар та посилання</div>
+                    <div class="rule-desc">
+                        Заборонено:
+                        - реклама без дозволу адміністрації
+                        - самопіар у будь-яких каналах (окрім спеціального)
+                        - надсилання посилань у ЛС без згоди
+                        - приховані або замасковані рекламні лінки
+                        - “нативна реклама” під виглядом звичайного повідомлення
+                    </div>
+                    <span class="rule-tag tag-warn">⚠ Мут: 24 години / Бан 3 дні</span>
+                </div>
+            </div>
+
+            <div class="rule-card danger">
+                <div class="rule-num">07</div>
+                <div class="rule-body">
+                    <div class="rule-title">Особисті дані (Doxxing)</div>
+                    <div class="rule-desc">
+                        Заборонено:
+                        - публікація реальних даних інших людей
+                        - злив фото, номерів, адрес, соцмереж
+                        - погрози розголошення інформації
+                        - пошук або розповсюдження приватної інформації
+                    </div>
+                    <span class="rule-tag tag-ban">🚫 Перм-бан + репорт в Discord</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ГОЛОСОВІ КАНАЛИ -->
+        <div class="section-label">☰ Голосовий канал</div>
+        <div class="rules-list">
+
+            <div class="rule-card">
+                <div class="rule-num">08</div>
+                <div class="rule-body">
+                    <div class="rule-title">Поведінка в голосовому каналі</div>
+                    <div class="rule-desc">
+                        Заборонено:
+                        - крики, істерики, агресивні звуки
+                        - soundboard без дозволу
+                        - навмисне перебивання розмови
+                        - спам звуками або мемами
+                        - включення музики без згоди учасників
+                    </div>
+                    <span class="rule-tag tag-warn">🔇 Мут: 2–24 години / Кік</span>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-num">09</div>
+                <div class="rule-body">
+                    <div class="rule-title">Якість мікрофона</div>
+                    <div class="rule-desc">
+                        Заборонено використання:
+                        - мікрофонів з шумами, ехо, тріском
+                        - постійного фонового шуму
+                        - надмірної гучності
+                    </div>
+                    <span class="rule-tag tag-info">ℹ Мут: 2 години</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- БЕЗПЕКА -->
+        <div class="section-label">☰ Безпека та акаунти</div>
+        <div class="rules-list">
+
+            <div class="rule-card danger">
+                <div class="rule-num">10</div>
+                <div class="rule-body">
+                    <div class="rule-title">Обхід покарань</div>
+                    <div class="rule-desc">
+                        Створення нових акаунтів для обходу мутів або банів суворо заборонено.
+                        Всі акаунти, пов’язані з обходом, будуть заблоковані.
+                    </div>
+                    <span class="rule-tag tag-ban">🚫 Перм-бан всіх акаунтів</span>
+                </div>
+            </div>
+
+            <div class="rule-card danger">
+                <div class="rule-num">11</div>
+                <div class="rule-body">
+                    <div class="rule-title">Шахрайство та фішинг</div>
+                    <div class="rule-desc">
+                        Заборонено:
+                        - обман користувачів
+                        - фішинг посилання
+                        - фейкові розіграші
+                        - крадіжка акаунтів
+                    </div>
+                    <span class="rule-tag tag-ban">🔨 Бан: 7 днів → Перм-бан</span>
+                </div>
+            </div>
+
+            <div class="rule-card danger">
+                <div class="rule-num">12</div>
+                <div class="rule-body">
+                    <div class="rule-title">Імперсонація</div>
+                    <div class="rule-desc">
+                        Заборонено видавати себе за:
+                        - адміністрацію
+                        - модераторів
+                        - інших користувачів
+                        - або будь-які офіційні ролі сервера
+                    </div>
+                    <span class="rule-tag tag-ban">🚫 Перм-бан</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- МОДЕРАЦІЯ -->
+        <div class="section-label">☰ Модерація</div>
+        <div class="rules-list">
+
+            <div class="rule-card">
+                <div class="rule-num">13</div>
+                <div class="rule-body">
+                    <div class="rule-title">Обов’язковість рішень</div>
+                    <div class="rule-desc">
+                        Рішення модерації є фінальними в межах сервера.
+                        Оскарження дозволене тільки через спеціальний канал.
+                    </div>
+                    <span class="rule-tag tag-info">ℹ Обов’язково</span>
+                </div>
+            </div>
+            <div class="rule-card">
+                <div class="rule-num">14</div>
+                <div class="rule-body">
+                    <div class="rule-title">Додатково</div>
+                    <div class="rule-desc">
+                        Модерація сервера залишає за собою право остаточного визначення міри покарання. Будь-які дії, що
+                        завдають шкоди серверу, його користувачам або порушують комфорт спільноти, можуть бути підставою
+                        для покарання, навіть якщо вони прямо не описані в правилах. </div>
+                    <span class="rule-tag tag-info">ℹ Обов’язково</span>
+                </div>
+            </div>
+
+        </div>
+        <footer>
+            <p>
+                Правила можуть оновлюватись без попередження.<br />
+                <strong>Адміністрація зберігає право на фінальне рішення</strong> в будь-якій спірній
+                ситуації.<br /><br />
+                Вступаючи на сервер, ти автоматично приймаєш ці правила.
+            </p>
+        </footer>
+
+    </div>
+</body>
+
+</html>
